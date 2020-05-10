@@ -1,18 +1,17 @@
 import * as React from "react"
-
+import MovieCard from './MovieCard'
+import { MovieInfo } from "./constants"
 
 interface MovieListingProps {
-    movies: Array<string>;
+    movieInfos: Array<MovieInfo>;
 }
 
 export default function MovieListing(props: MovieListingProps): JSX.Element {
     return (
         <div>
-            {props.movies.map((movie) => (
-                    <li>
-                        {movie}
-                    </li>
-                ))}
+            {props.movieInfos.map((movieInfo) => (
+                <MovieCard movieInfo={movieInfo} />
+            ))}
         </div>
     )
 }

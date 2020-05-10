@@ -1,5 +1,6 @@
 import nlp from 'compromise'
 import _ from 'underscore'
+import { MovieInfo, StreamLink } from '../ui/constants'
 
 function getProperNounPhrases(tokenizedText: Array<string>, properNouns: Array<string>): Array<string> {
     var properNounSet = new Set(properNouns)
@@ -39,7 +40,7 @@ export function makeTextBlocks(words: Array<string>, blockSize: number): Array<s
             currentTextBlockLength = 0
         }
         currentTextBlock.push(word)
-        currentTextBlockLength = currentTextBlockLength + word.length
+        currentTextBlockLength = currentTextBlockLength + word.length + 1
     })
     if (currentTextBlockLength > 0) {
         textBlocks.push(currentTextBlock.join(" "))
@@ -59,4 +60,24 @@ export function getMoviesFromWitResponse(responseData): Array<string> {
         ).map(
             (value) => (value.name)
         )
+}
+
+export function parseMovieInformation($, movieTitle: string): MovieInfo {
+    let streamingLinks: Array<StreamLink> = []
+
+    const movieRow = $('div .tpa-cc').first().find('div .PZPZlf')
+    movieRow.each((i, el) => {
+        const text = $(el).find('div .i3LlFf').text()
+        const price = $(el).find('div .V8xno').text()
+        const href = $(el).find('div .JkUS4b').attr('href') 
+        streamingLinks.push({
+            text: text,
+            price: price,
+            href: href
+        })
+    })
+    return {
+        title: movieTitle,
+        links: streamingLinks
+    }
 }

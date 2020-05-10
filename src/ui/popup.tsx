@@ -4,40 +4,33 @@ import * as ReactDOM from "react-dom"
 import Spinner from "react-bootstrap/Spinner"
 import _ from 'underscore'
 
-
-import { queryPageText, POST_MOVIES } from '../app/query'
+import { POST_STREAMING, storeData } from '../app/query'
 import MovieListing from './MovieListing'
 import "../styles/popup.css"
+import { MovieInfo } from './constants';
 
-function addListener(action: string, attribute: string, onReceiveData: (newData: any) => void): void {
+function Popup(): JSX.Element {
+    const [movieInfos, setMovieInfos] = React.useState<Array<MovieInfo>>([]);
+
+    const handleChangeMovieInfo = (newMovieInfo: MovieInfo) => {
+        setMovieInfos([...movieInfos, newMovieInfo])
+    }
+
     chrome.runtime.onMessage.addListener(
         function (request, sender, sendResponse) {
-            if (request.action == action) {
-                onReceiveData(request[attribute])
+            if (request.action === POST_STREAMING) {
+                storeData([...movieInfos, request.movieInfo])
+                handleChangeMovieInfo(request.movieInfo)
             }
         }
     );
-}
-
-function Popup(): JSX.Element {
-    const [movies, setMovies] = React.useState([]);
-
-    const handleUpdateMovies = (newMovies: Array<string>) => {
-        setMovies(_.uniq([...movies, ...newMovies]))
-    }
-
-    React.useEffect(() => {
-        queryPageText()
-    }, [])
-
-    addListener(POST_MOVIES, "movies", handleUpdateMovies)
 
     return (
         <>
-        {movies && movies.length > 0 ?
-            <MovieListing movies={movies} />  :
-            <Spinner animation={"border"}/>
-        }
+            {movieInfos && movieInfos.length > 0 ?
+                <MovieListing movieInfos={movieInfos} /> :
+                <Spinner animation={"border"} />
+            }
         </>
     )
 }
