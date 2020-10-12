@@ -1,62 +1,64 @@
-import _ from 'underscore'
-import {
-    GET_PAGE_TEXT,
-    GET_MOVIES,
-    GET_STREAMING,
-    postStreaming,
-} from "./query";
-import { makeTextBlocks, getProperNouns, getMoviesFromWitResponse, parseMovieInformation } from './utils';
-const axios = require('axios')
-const cheerio = require('cheerio')
+import _ from "underscore";
+import { GET_BIO_INFO, postBioInfo, GET_ADDITIONAL_INFO, POST_ADDITIONAL_INFO, postAdditionalInfo } from "./message";
+import { getBios, getImages } from "./queryBio";
+import { queryGoogleNews } from "./queryNews";
+import { queryGoogleSocial } from "./querySocial";
+import { injectMarkCSS, getNames, delay } from "./util";
 
-async function getPageText(url: string): Promise<void> {
-    const queryUrl = `https://boilerpipe-web.appspot.com/extract?url=${url}&extractor=ArticleExtractor&output=text`
-    const { data } = await axios({ url: queryUrl, method: 'get', headers: { "Content-Type": "application/json" } })
-    getMovies(data)
+const QUERY_BATCH_SIZE = 12;
+
+
+async function batchQueries(names: Array<string>): Promise<void> {
+  const queryChunks = _.chunk(names, QUERY_BATCH_SIZE);
+  var promise = Promise.resolve();
+  queryChunks.forEach(async (queryChunk, i) => {
+    promise = promise.then(
+      async (): Promise<void> => {
+        const wikiInfos = await getBios(queryChunk);
+        const filteredNames = wikiInfos.map((wikiInfo) => wikiInfo.title)
+        const nameToImages = await getImages(filteredNames);
+        const bioInfos =  wikiInfos.map((wikiInfo) => ({
+            name: wikiInfo.title,
+            snippet: wikiInfo.snippet,
+            wikiUrl: `http://en.wikipedia.org/?curid=${wikiInfo.pageId}`,
+            imageUrl: nameToImages[wikiInfo.title],
+        }));
+        postBioInfo(bioInfos);
+        return new Promise(function (resolve) {
+          setTimeout(resolve, delay(i));
+        });
+      }
+    );
+  });
 }
 
-const API_KEY = "V3MGGSB2HZWX3KXHXUB4A6VUB7MXVROV"
-
-function getMovies(text: string): void {
-    const properNouns = getProperNouns(text)
-    const textBlocks = makeTextBlocks(properNouns, 270)
-    let seenMovies = new Set([])
-    textBlocks.forEach(async (textBlock) => {
-        const encodedTextBlock = encodeURI(textBlock)
-        const queryUrl = `https://api.wit.ai/message?v=20200509&q=${encodedTextBlock}`
-        const { data } = await axios({ url: queryUrl, method: 'get', headers: { "Authorization": `Bearer ${API_KEY}` } })
-        const newMovies = getMoviesFromWitResponse(data)
-        newMovies.forEach((movie) => {
-            if (!seenMovies.has(movie)) {
-                seenMovies.add(movie)
-                getStreaming(movie)
-            }
-        })
-    })
+async function handleBioInfoRequest(text: string): Promise<void> {
+  const names = getNames(text);
+  await batchQueries(names);
 }
 
-async function getStreaming(movieTitle: string): Promise<void> {
-    const query = `watch ${movieTitle} movie`
-    const googleQueryUrl = `https://www.google.com/search?q=${query}`
-    const { data } = await axios.get(googleQueryUrl)
-    const $ = cheerio.load(data)
-    const movieInfo = parseMovieInformation($, movieTitle)
-    console.log("POSTING STREAMING")
-    postStreaming(movieInfo)
+async function handleAdditionalInfoRequest(name: string): Promise<void> {
+  const articles = await queryGoogleNews(name);
+  const social = await queryGoogleSocial(name);
+  postAdditionalInfo({
+      name: name,
+      articles: articles,
+      social: social
+  })
 }
 
 async function onRequest(request, sender, sendResponse) {
-    if (request.action === GET_PAGE_TEXT) {
-        getPageText(request.url)
-    }
-    else if (request.action === GET_MOVIES) {
-        getMovies(request.text)
-    }
-    else if (request.action === GET_STREAMING) {
-        getStreaming(request.movieTitle)
-    }
-    return true;
+  injectMarkCSS();
+  switch (request.action) {
+      case GET_BIO_INFO:
+        handleBioInfoRequest(request.text);
+        return true
+      case GET_ADDITIONAL_INFO:
+        handleAdditionalInfoRequest(request.name);
+        return true
+      default:
+        return true
+  }
 }
 
 chrome.runtime.onMessage.addListener(onRequest);
-

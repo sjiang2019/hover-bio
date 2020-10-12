@@ -31,11 +31,17 @@
         "matches": [
           "https://*/*"
         ],
+        "css": [
+            "js/extension.css"
+        ],
         "js": [
           "js/content.js"
         ],
         "run_at": "document_end"
       }
+    ],
+    "web_accessible_resources": [
+        "js/extension.css"
     ]
   }
   

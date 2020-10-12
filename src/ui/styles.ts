@@ -1,53 +1,90 @@
 import { StyleSheet } from 'aphrodite';
 
-export const popupStyles = StyleSheet.create({
-    tabs: {
-        alignItems: 'stretch',
-        display: 'flex',
-        fontSize: 15,
-        justifyContent: 'space-between',
-        paddingTop: 15,
+export const hoverCardStyle = StyleSheet.create({
+  popover: {
+    alignItems: "stretch",
+    display: "flex",
+    fontSize: 14,
+    justifyContent: "space-between",
+    width: "500px",
+    height: "250px",
+    fontFamily: "sans-serif",
+    backgroundColor: "white",
+    boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+  },
+  image: {
+    display: "block",
+    maxHeight: "250px",
+    maxWidth: "250px",
+    width: "auto",
+    height: "auto",
+  },
+  bioCard: {
+    marginLeft: 12,
+    marginRight: 12,
+    height: "250px",
+    overflowY: "auto",
+  },
+  link: {
+    color: "#3E505B",
+    ":hover": {
+      color: "#8AB4F7",
     },
-    tabsNav: {
-        alignItems: 'stretch',
-        flex: 1,
-        display: 'flex',
-        listStyle: 'none',
-        marginBottom: 0,
-        paddingLeft: 0,
-    },
-    tabItem: {
-        alignItems: 'stretch',
-        color: '#5c7c83',
-        cursor: 'pointer',
-        display: 'flex',
-        justifyContent: 'space-between',
-        textTransform: 'uppercase',
-        marginLeft: 10,
-        ':hover': {
-            borderBottom: '1px solid #171123',
-            color: '#4b1d3f',
-        },
-    },
-    activeTabItem: {
-        borderBottom: '1px solid #171123',
-    }
+    textDecoration: "none",
+  },
 });
 
-export const productInfoStyles = StyleSheet.create({
-    container: {
-        alignItems: 'stretch',
-        display: 'flex',
-        fontSize: 14,
-        justifyContent: 'space-between',
-        padding: 10,
-        marginTop: 15,
-        border: '1px solid #171123',
-        borderRadius: 8,
-        backgroundColor: '#f0d3f7'
+export const summarySectionStyle = StyleSheet.create({
+  header: {
+    textTransform: "uppercase",
+    fontSize: "x-large",
+    fontWeight: "bold",
+    color: "#3E505B",
+    marginBottom: 12,
+    marginTop: 12,
+  },
+  bioText: {
+    fontStyle: "italic",
+    color: "#3E505B",
+    paddingBottom: 12,
+  },
+  link: {
+    color: "#3E505B",
+    ":hover": {
+      color: "#8AB4F7",
     },
-    image: {
-        border: '1px solid #171123',
-        borderRadius: 8,
-    }
-});
+    textDecoration: "none",
+  },
+})
+
+export const socialSectionStyle = StyleSheet.create({
+  socialMedia: {
+    color: "#77A6B6",
+    paddingRight: 6,
+    textDecoration: "none",
+  },
+})
+
+export const newsSectionStyle = StyleSheet.create({
+  newsHeader: {
+    textTransform: "uppercase",
+    fontSize: "large",
+    fontWeight: "bold",
+    color: "#3E505B",
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  newsSection: {
+    marginBottom: 12,
+  },
+  linkSection: {
+    marginBottom: 6,
+  },
+  link: {
+    color: "#3E505B",
+    ":hover": {
+      color: "#8AB4F7",
+    },
+    textDecoration: "none",
+  },
+})
