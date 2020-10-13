@@ -35,10 +35,6 @@ async function queryWiki(names: Array<string>): Promise<Array<WikiInfo>> {
     const { data } = await axios.get(url);
     if (data?.query?.search != null) {
       const results = data.query.search;
-      console.log(
-        "found wiki articles for: " +
-          results.map((result) => result.title).join(", ")
-      );
       const filteredResults = results.filter(
         (result) =>
           names.includes(result.title) &&
@@ -51,7 +47,7 @@ async function queryWiki(names: Array<string>): Promise<Array<WikiInfo>> {
         snippet: filteredResult.snippet,
       }));
     } else {
-      console.error(`Querying for ${names.join(",")} gave invalid result:`);
+      console.log(`Querying for ${names.join(",")} gave invalid result:`);
       console.log(data);
     }
   } catch (e) {

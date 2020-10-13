@@ -8,9 +8,10 @@ import {
 import { getBios, getImages } from "./queryBio";
 import { queryGoogleNews } from "./queryNews";
 import { queryGoogleSocial } from "./querySocial";
-import { injectMarkCSS, getNames, delay } from "./util";
+import { injectMarkCSS, getNames } from "./util";
 
 const QUERY_BATCH_SIZE = 12;
+const DELAY_MS = 3000;
 
 async function batchQueries(names: Array<string>): Promise<void> {
   const queryChunks = _.chunk(names, QUERY_BATCH_SIZE);
@@ -29,7 +30,7 @@ async function batchQueries(names: Array<string>): Promise<void> {
         }));
         postBioInfo(bioInfos);
         return new Promise(function (resolve) {
-          setTimeout(resolve, delay(i));
+          setTimeout(resolve, DELAY_MS);
         });
       }
     );
@@ -38,9 +39,6 @@ async function batchQueries(names: Array<string>): Promise<void> {
 
 async function handleBioInfoRequest(text: string): Promise<void> {
   const names = getNames(text);
-  console.log(
-    "querying wikipedia for the following names: " + names.join(", ")
-  );
   await batchQueries(names);
 }
 
