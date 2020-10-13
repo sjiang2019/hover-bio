@@ -4,18 +4,17 @@ import * as React from "react";
 
 import { BioInfo } from "../ui/constants";
 import HoverCard from "../ui/HoverCard";
-import Mark from "mark.js";
-import findAndReplaceDOMText from 'findandreplacedomtext'
+import findAndReplaceDOMText from "findandreplacedomtext";
 
 export function markDocument(bioInfos: Array<BioInfo>): void {
   const names = bioInfos.map((bioInfo) => bioInfo.name);
   names.forEach((name) => {
     findAndReplaceDOMText(document.documentElement, {
-        find: name,
-        wrap: 'span',
-        wrapClass: 'hoverBioNode'
-    })
-  })
+      find: name,
+      wrap: "span",
+      wrapClass: "hoverBioNode",
+    });
+  });
   appendPopovers(bioInfos);
 }
 

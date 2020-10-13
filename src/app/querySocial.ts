@@ -21,16 +21,16 @@ export async function queryGoogleSocial(name: string): Promise<Social> {
     const profileDiv = divs.filter((i, div) => $(div).text() == "Profiles")[0];
     const links = $(profileDiv).parent().find("a");
     links.each((i, link) => {
-        const socialLink = $(link).attr("href");
-        if (socialLink.includes("instagram")) {
+      const socialLink = $(link).attr("href");
+      if (socialLink.includes("instagram")) {
         social["instagram"] = socialLink;
-        } else if (socialLink.includes("facebook")) {
+      } else if (socialLink.includes("facebook")) {
         social["facebook"] = socialLink;
-        } else if (socialLink.includes("twitter")) {
+      } else if (socialLink.includes("twitter")) {
         social["twitter"] = socialLink;
-        } else if (socialLink.includes("linkedin")) {
+      } else if (socialLink.includes("linkedin")) {
         social["linkedin"] = socialLink;
-        }
+      }
     });
   } catch (e) {
     console.error(e.message);

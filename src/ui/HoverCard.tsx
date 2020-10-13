@@ -56,12 +56,12 @@ export default function HoverCard(props: {
   const [hasOpenedBefore, setHasOpenedBefore] = React.useState(false);
   const name = props.bioInfo.name;
 
-  chrome.storage.onChanged.addListener(function(changes, namespace) {
+  chrome.storage.onChanged.addListener(function (changes, namespace) {
     for (var key in changes) {
       var storageChange = changes[key];
       if (key === name) {
-        setSocial(storageChange.newValue.social)
-        setArticles(storageChange.newValue.articles)
+        setSocial(storageChange.newValue.social);
+        setArticles(storageChange.newValue.articles);
       }
     }
   });

@@ -1,10 +1,23 @@
-
 import _ from "underscore";
 const axios = require("axios");
 
 const REGEX_BATCH_SIZE = 6;
 const WIKI_URL =
   "https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=intitle:/";
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 function constructNameRegex(names: Array<string>): string {
   return names.map((name) => '"' + name + '"').join("|");
@@ -20,23 +33,34 @@ async function queryWiki(names: Array<string>): Promise<Array<WikiInfo>> {
   const url = WIKI_URL + constructNameRegex(names) + "/i";
   try {
     const { data } = await axios.get(url);
-    const results = data.query.search;
-    const filteredResults = results.filter((result) =>
-      names.includes(result.title) && result.snippet.includes("born")
-    );
-    return filteredResults.map((filteredResult) => ({
-      title: filteredResult.title,
-      pageId: filteredResult.pageid,
-      snippet: filteredResult.snippet,
-    }));
+    if (data?.query?.search != null) {
+      const results = data.query.search;
+      console.log(
+        "found wiki articles for: " +
+          results.map((result) => result.title).join(", ")
+      );
+      const filteredResults = results.filter(
+        (result) =>
+          names.includes(result.title) &&
+          // Hacky way of checking if the returned article is a person
+          MONTHS.some((month) => result.snippet.includes(month))
+      );
+      return filteredResults.map((filteredResult) => ({
+        title: filteredResult.title,
+        pageId: filteredResult.pageid,
+        snippet: filteredResult.snippet,
+      }));
+    } else {
+      console.error(`Querying for ${names.join(",")} gave invalid result:`);
+      console.log(data);
+    }
   } catch (e) {
     console.error(e.message);
+    return [];
   }
 }
 
-export async function getBios(
-  names: Array<string>
-): Promise<Array<WikiInfo>> {
+export async function getBios(names: Array<string>): Promise<Array<WikiInfo>> {
   // TODO: Batch queries so that we're not making a bunch of API requests at once
   const chunks = _.chunk(names, REGEX_BATCH_SIZE);
   const resultsArray = chunks.map(
@@ -59,7 +83,12 @@ async function queryWikiThumbnail(name: string): Promise<string> {
   const url = IMAGE_QUERY_URL + name;
   try {
     const { data } = await axios.get(url);
-    return data.query.pages[0].thumbnail.source;
+    if (data?.query?.pages[0]?.thumbnail?.source != null) {
+      return data.query.pages[0].thumbnail.source;
+    } else {
+      console.log(`Could not find image for ${name}:`);
+      console.log(data);
+    }
   } catch (e) {
     console.error(e.message);
   }

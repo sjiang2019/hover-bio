@@ -9,11 +9,11 @@ const NUM_ARTICLES = 8;
 
 export async function queryGoogleNews(name: string): Promise<Array<Article>> {
   const url = NEWS_URL + name;
-  let articles = []
+  let articles = [];
   try {
     const { data } = await axios.get(url);
     const jsonData = JSON.parse(
-        convert.xml2json(data, { compact: true, spaces: 4 })
+      convert.xml2json(data, { compact: true, spaces: 4 })
     );
     articles = jsonData.rss.channel.item.slice(0, NUM_ARTICLES);
   } catch (e) {

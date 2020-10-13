@@ -39,19 +39,19 @@ export const summarySectionStyle = StyleSheet.create({
     textTransform: "uppercase",
     fontSize: "x-large",
     fontWeight: "bold",
-    color: "#3E505B",
+    color: "#3d5a80",
     marginBottom: 12,
     marginTop: 12,
   },
   bioText: {
     fontStyle: "italic",
-    color: "#3E505B",
+    color: "#293241",
     paddingBottom: 12,
   },
   link: {
-    color: "#3E505B",
+    color: "#293241",
     ":hover": {
-      color: "#8AB4F7",
+      color: "#98c1d9",
     },
     textDecoration: "none",
   },
@@ -59,7 +59,7 @@ export const summarySectionStyle = StyleSheet.create({
 
 export const socialSectionStyle = StyleSheet.create({
   socialMedia: {
-    color: "#77A6B6",
+    color: "#3d5a80",
     paddingRight: 6,
     textDecoration: "none",
   },
@@ -70,7 +70,7 @@ export const newsSectionStyle = StyleSheet.create({
     textTransform: "uppercase",
     fontSize: "large",
     fontWeight: "bold",
-    color: "#3E505B",
+    color: "#3d5a80",
     marginTop: 8,
     marginBottom: 8,
   },
@@ -81,9 +81,9 @@ export const newsSectionStyle = StyleSheet.create({
     marginBottom: 6,
   },
   link: {
-    color: "#3E505B",
+    color: "#293241",
     ":hover": {
-      color: "#8AB4F7",
+      color: "#98c1d9",
     },
     textDecoration: "none",
   },

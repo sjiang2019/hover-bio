@@ -7,6 +7,7 @@ import { BioInfo } from "./constants";
 export default function SummarySection(props: {
   bioInfo: BioInfo;
 }): JSX.Element {
+    
   return (
     <>
       <div className={css(style.header)}>{props.bioInfo.name}</div>
