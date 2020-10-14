@@ -18,7 +18,7 @@ export default function NewsSection(props: NewsSectionProps): JSX.Element {
           <>
             {props.articles.map((article, i) => (
               <div key={i} className={css(style.linkSection)}>
-                <a href={article.link} className={css(style.link)}>
+                <a href={article.link} target="_blank" className={css(style.link)}>
                   {article.title}
                 </a>
               </div>

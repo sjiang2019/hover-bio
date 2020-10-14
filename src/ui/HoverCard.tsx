@@ -107,6 +107,7 @@ export default function HoverCard(props: {
         onHide={() => setShowPopover(false)}
         target={target.current}
         placement="auto"
+        transition={true}
         flip={true}
       >
         {popover}

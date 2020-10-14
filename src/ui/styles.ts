@@ -44,6 +44,13 @@ export const summarySectionStyle = StyleSheet.create({
     marginBottom: 12,
     marginTop: 12,
   },
+  headerLink: {
+    color: "#3d5a80",
+    ":hover": {
+      color: "#98c1d9",
+    },
+    textDecoration: "none",
+  },
   bioText: {
     fontStyle: "italic",
     color: "#293241",
