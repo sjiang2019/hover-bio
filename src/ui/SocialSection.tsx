@@ -1,3 +1,4 @@
+import _ from "underscore";
 import { css } from "aphrodite";
 import * as React from "react";
 
@@ -9,37 +10,41 @@ import InstagramIcon from "@material-ui/icons/Instagram";
 import { socialSectionStyle as style } from "./styles";
 import { Social } from "./constants";
 
-export default function SocialSection(props: { social: Social }): JSX.Element {
+export interface SocialSectionProps {
+  social: Social;
+}
+
+export default function SocialSection(props: SocialSectionProps): JSX.Element {
   return (
     <>
-      {props.social ? (
-        <div>
-          {props.social.twitter && (
-            <a href={props.social.twitter}>
+      {props.social && !_.isEmpty(props.social) && (
+        <div className={css(style.socialSection)}>
+          {props.social.Twitter && (
+            <a href={props.social.Twitter}>
               <TwitterIcon
                 className={css(style.socialMedia)}
                 fontSize="large"
               />
             </a>
           )}
-          {props.social.instagram && (
-            <a href={props.social.instagram}>
+          {props.social.Instagram && (
+            <a href={props.social.Instagram}>
               <InstagramIcon
                 className={css(style.socialMedia)}
                 fontSize="large"
               />
             </a>
           )}
-          {props.social.linkedin && (
-            <a href={props.social.linkedin}>
+          {props.social.LinkedIn && (
+            <a href={props.social.LinkedIn}>
               <LinkedInIcon
                 className={css(style.socialMedia)}
                 fontSize="large"
               />
             </a>
           )}
-          {props.social.facebook && (
-            <a href={props.social.facebook}>
+          {props.social.Facebook && (
+            <a href={props.social.Facebook}>
               <FacebookIcon
                 className={css(style.socialMedia)}
                 fontSize="large"
@@ -47,8 +52,6 @@ export default function SocialSection(props: { social: Social }): JSX.Element {
             </a>
           )}
         </div>
-      ) : (
-        <div className="bioLoader"></div>
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'aphrodite';
+import { StyleSheet } from "aphrodite";
 
 export const hoverCardStyle = StyleSheet.create({
   popover: {
@@ -10,7 +10,8 @@ export const hoverCardStyle = StyleSheet.create({
     height: "250px",
     fontFamily: "sans-serif",
     backgroundColor: "white",
-    boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+    border: "1px solid #F5F5F5",
+    boxShadow: "3px 3px 3px rgba(0, 0, 0, 0.25)",
   },
   image: {
     display: "block",
@@ -55,15 +56,18 @@ export const summarySectionStyle = StyleSheet.create({
     },
     textDecoration: "none",
   },
-})
+});
 
 export const socialSectionStyle = StyleSheet.create({
+  socialSection: {
+    marginBottom: 12
+  },
   socialMedia: {
     color: "#3d5a80",
     paddingRight: 6,
     textDecoration: "none",
   },
-})
+});
 
 export const newsSectionStyle = StyleSheet.create({
   newsHeader: {
@@ -87,4 +91,25 @@ export const newsSectionStyle = StyleSheet.create({
     },
     textDecoration: "none",
   },
-})
+});
+
+export const metadataSectionStyle = StyleSheet.create({
+  metadataSection: {
+    marginBottom: 12,
+    marginTop: 12,
+  },
+  text: {
+    color: "#293241",
+    marginBottom: 6,
+  },
+  boldText: {
+    fontWeight: "bold",
+  },
+  link: {
+    color: "#293241",
+    ":hover": {
+      color: "#98c1d9",
+    },
+    textDecoration: "none",
+  },
+});

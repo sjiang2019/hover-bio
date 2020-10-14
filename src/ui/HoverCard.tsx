@@ -7,43 +7,33 @@ import Overlay from "react-bootstrap/Overlay";
 
 import { BioInfo, Social, Article } from "./constants";
 import { hoverCardStyle as style } from "./styles";
-import SocialSection from "./SocialSection";
 import SummarySection from "./SummarySection";
-import NewsSection from "./NewsSection";
-import { queryAdditionalInfo } from "../app/message";
+import AdditionalInfoSection from "./AdditionalInfoSection";
+import { setFromCacheOrQuery } from "../app/util";
+
+interface BioInfoCardProps {
+  bioInfo: BioInfo;
+  social: Social;
+  articles: Array<Article>;
+  metadata: { [key: string]: string };
+}
 
 function BioInfoCard({
   bioInfo,
   social,
   articles,
-}: {
-  bioInfo: BioInfo;
-  social: Social;
-  articles: Array<Article>;
-}) {
+  metadata,
+}: BioInfoCardProps) {
   return (
     <div className={css(style.bioCard)}>
       <SummarySection bioInfo={bioInfo} />
-      <SocialSection social={social} />
-      <hr />
-      <NewsSection articles={articles} />
+      <AdditionalInfoSection
+        social={social}
+        metadata={metadata}
+        articles={articles}
+      />
     </div>
   );
-}
-
-function setFromCacheOrQuery(
-  name: string,
-  setSocial: (social: Social) => void,
-  setArticles: (articles: Array<Article>) => void
-): void {
-  chrome.storage.sync.get([name], function (items) {
-    if (_.isEmpty(items)) {
-      queryAdditionalInfo(name);
-    } else {
-      setSocial(items[name].additionalInfo.social);
-      setArticles(items[name].additionalInfo.articles);
-    }
-  });
 }
 
 export default function HoverCard(props: {
@@ -53,6 +43,7 @@ export default function HoverCard(props: {
   const [showPopover, setShowPopover] = React.useState(false);
   const [social, setSocial] = React.useState(null);
   const [articles, setArticles] = React.useState([]);
+  const [metadata, setMetadata] = React.useState(null);
   const [hasOpenedBefore, setHasOpenedBefore] = React.useState(false);
   const name = props.bioInfo.name;
 
@@ -62,13 +53,19 @@ export default function HoverCard(props: {
       if (key === name) {
         setSocial(storageChange.newValue.social);
         setArticles(storageChange.newValue.articles);
+        setMetadata(storageChange.newValue.metadata);
       }
     }
   });
 
   React.useEffect(() => {
     if (showPopover && !hasOpenedBefore) {
-      setFromCacheOrQuery(name, setSocial, setArticles);
+      setFromCacheOrQuery(
+        name,
+        setSocial,
+        setArticles,
+        setMetadata,
+      );
       setHasOpenedBefore(true);
     }
   }, [showPopover]);
@@ -91,6 +88,7 @@ export default function HoverCard(props: {
           bioInfo={props.bioInfo}
           social={social}
           articles={articles}
+          metadata={metadata}
         />
       </Popover>
     </div>
@@ -108,6 +106,8 @@ export default function HoverCard(props: {
         show={showPopover}
         onHide={() => setShowPopover(false)}
         target={target.current}
+        placement="auto"
+        flip={true}
       >
         {popover}
       </Overlay>

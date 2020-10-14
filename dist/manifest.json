@@ -1,8 +1,8 @@
 {
-    "name": "Hover Bio",
+    "name": "Hover Bio: Mouse-over Insights",
     "version": "0.0.1",
     "manifest_version": 2,
-    "description": "Hover over highlighted names to see additional relevant information.",
+    "description": "Hover over terms to see additional relevant information.",
     "homepage_url": "https://www.hoverb.io",
     "icons": {
       "16": "icons/icon16.png",

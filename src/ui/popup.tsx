@@ -6,7 +6,11 @@ import _ from "underscore";
 import "../styles/popup.css";
 
 export default function Popup(): JSX.Element {
-  return <></>;
+  return (
+  <div>
+      <a href="https://www.hoverb.io" target="_blank">Landing page in progress!</a>
+  </div>
+  );
 }
 
 // --------------

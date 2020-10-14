@@ -1,8 +1,10 @@
 import _ from "underscore";
 import nlp from "compromise";
+import { Social, Article } from "../ui/constants";
+import { queryAdditionalInfo } from "./message";
 
 export function injectMarkCSS(): void {
-  chrome.tabs.insertCSS({ code: ".hoverBioNode{background: #FFFFE0;}" });
+  chrome.tabs.insertCSS({ code: ".hoverBioNode{background: #FFFFF0;}" });
 }
 
 export function getNames(text: string): Array<string> {
@@ -20,4 +22,21 @@ export function getNames(text: string): Array<string> {
     return namesList;
   }, []);
   return _.uniq(filteredNames);
+}
+
+export function setFromCacheOrQuery(
+  name: string,
+  setSocial: (social: Social) => void,
+  setArticles: (articles: Array<Article>) => void,
+  setMetadata: (metadata: { [key: string]: string }) => void,
+): void {
+  chrome.storage.sync.get([name], function (items) {
+    if (_.isEmpty(items)) {
+      queryAdditionalInfo(name);
+    } else {
+      setSocial(items[name].additionalInfo.social);
+      setArticles(items[name].additionalInfo.articles);
+      setMetadata(items[name].additionalInfo.metadata);
+    }
+  });
 }

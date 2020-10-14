@@ -7,7 +7,7 @@ import {
 } from "./message";
 import { getBios, getImages } from "./queryBio";
 import { queryGoogleNews } from "./queryNews";
-import { queryGoogleSocial } from "./querySocial";
+import { queryInfoPanel } from "./queryInfoPanel";
 import { injectMarkCSS, getNames } from "./util";
 
 const QUERY_BATCH_SIZE = 12;
@@ -44,11 +44,11 @@ async function handleBioInfoRequest(text: string): Promise<void> {
 
 async function handleAdditionalInfoRequest(name: string): Promise<void> {
   const articles = await queryGoogleNews(name);
-  const social = await queryGoogleSocial(name);
+  const infoPanelData = await queryInfoPanel(name);
   postAdditionalInfo({
     name: name,
     articles: articles,
-    social: social,
+    ...infoPanelData
   });
 }
 

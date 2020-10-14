@@ -19,16 +19,24 @@ export interface Article {
 }
 
 export interface Social {
-  facebook: string;
-  twitter: string;
-  instagram: string;
-  linkedin: string;
+  Facebook: string;
+  Twitter: string;
+  Instagram: string;
+  LinkedIn: string;
+}
+
+export const SOCIAL_MEDIA_KEYS = ["Facebook", "Twitter", "Instagram", "LinkedIn"]
+
+export interface InfoPanel {
+    social: Social;
+    metadata: { [key: string]: string };
 }
 
 export interface AdditionalInfo {
   name: string;
   articles?: Array<Article>;
   social?: Social;
+  metadata?: {[key: string]: string};
 }
 
 export interface BioInfo {

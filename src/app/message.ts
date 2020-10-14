@@ -26,6 +26,7 @@ export function queryAdditionalInfo(name: string) {
 export function postAdditionalInfo(additionalInfo: AdditionalInfo) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     var activeTab = tabs[0];
+    console.log("posting data:", additionalInfo)
     chrome.tabs.sendMessage(activeTab.id, {
       action: POST_ADDITIONAL_INFO,
       additionalInfo: additionalInfo,

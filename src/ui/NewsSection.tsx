@@ -4,25 +4,28 @@ import * as React from "react";
 import { Article } from "./constants";
 import { newsSectionStyle as style } from "./styles";
 
-export default function NewsSection(props: {
+export interface NewsSectionProps {
   articles: Array<Article>;
-}): JSX.Element {
+}
+
+export default function NewsSection(props: NewsSectionProps): JSX.Element {
   return (
-    <div className={css(style.newsSection)}>
-      <div className={css(style.newsHeader)}>In the News</div>
-      {props.articles.length ? (
-        <>
-          {props.articles.map((article, i) => (
-            <div key={i} className={css(style.linkSection)}>
-              <a href={article.link} className={css(style.link)}>
-                {article.title}
-              </a>
-            </div>
-          ))}
-        </>
-      ) : (
-        <div className="bioLoader"></div>
+    <>
+      {props.articles.length && (
+        <div className={css(style.newsSection)}>
+          <hr />
+          <div className={css(style.newsHeader)}>In the News</div>
+          <>
+            {props.articles.map((article, i) => (
+              <div key={i} className={css(style.linkSection)}>
+                <a href={article.link} className={css(style.link)}>
+                  {article.title}
+                </a>
+              </div>
+            ))}
+          </>
+        </div>
       )}
-    </div>
+    </>
   );
 }
