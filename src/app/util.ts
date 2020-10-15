@@ -4,7 +4,9 @@ import { Social, Article } from "../ui/constants";
 import { queryAdditionalInfo } from "./message";
 
 export function injectMarkCSS(): void {
-  chrome.tabs.insertCSS({ code: ".hoverBioNode{background: #FFFFF0;}" });
+  chrome.tabs.insertCSS({ 
+      code: ".hoverBioNode{font-weight: bold;}" 
+    });
 }
 
 export function getNames(text: string): Array<string> {

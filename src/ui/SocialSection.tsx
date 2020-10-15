@@ -20,7 +20,7 @@ export default function SocialSection(props: SocialSectionProps): JSX.Element {
       {props.social && !_.isEmpty(props.social) && (
         <div className={css(style.socialSection)}>
           {props.social.Twitter && (
-            <a href={props.social.Twitter}>
+            <a href={props.social.Twitter} target="_blank">
               <TwitterIcon
                 className={css(style.socialMedia)}
                 fontSize="large"
@@ -28,7 +28,7 @@ export default function SocialSection(props: SocialSectionProps): JSX.Element {
             </a>
           )}
           {props.social.Instagram && (
-            <a href={props.social.Instagram}>
+            <a href={props.social.Instagram} target="_blank">
               <InstagramIcon
                 className={css(style.socialMedia)}
                 fontSize="large"
@@ -36,7 +36,7 @@ export default function SocialSection(props: SocialSectionProps): JSX.Element {
             </a>
           )}
           {props.social.LinkedIn && (
-            <a href={props.social.LinkedIn}>
+            <a href={props.social.LinkedIn} target="_blank">
               <LinkedInIcon
                 className={css(style.socialMedia)}
                 fontSize="large"
@@ -44,7 +44,7 @@ export default function SocialSection(props: SocialSectionProps): JSX.Element {
             </a>
           )}
           {props.social.Facebook && (
-            <a href={props.social.Facebook}>
+            <a href={props.social.Facebook} target="_blank">
               <FacebookIcon
                 className={css(style.socialMedia)}
                 fontSize="large"

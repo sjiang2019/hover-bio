@@ -7,24 +7,25 @@ export const hoverCardStyle = StyleSheet.create({
     fontSize: 14,
     justifyContent: "space-between",
     width: "500px",
-    height: "250px",
+    height: "240px",
     fontFamily: "sans-serif",
     backgroundColor: "white",
-    border: "1px solid #F5F5F5",
-    boxShadow: "3px 3px 3px rgba(0, 0, 0, 0.25)",
+    boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
   },
   image: {
     display: "block",
-    maxHeight: "250px",
-    maxWidth: "250px",
+    maxHeight: "240px",
+    maxWidth: "260px",
     width: "auto",
     height: "auto",
   },
   bioCard: {
-    marginLeft: 12,
-    marginRight: 12,
-    height: "250px",
-    overflowY: "auto",
+    paddingLeft: 12,
+    paddingRight: 12,
+    height: "240px",
+    overflowY: "scroll",
+    // boxShadow: "inset 0 -25px 50px -35px rgba(0, 0, 0, 1)"
+    boxShadow: "inset 0 -35px 50px -50px rgba(0, 0, 0, 1)"
   },
   link: {
     color: "#3E505B",
@@ -41,8 +42,8 @@ export const summarySectionStyle = StyleSheet.create({
     fontSize: "x-large",
     fontWeight: "bold",
     color: "#3d5a80",
-    marginBottom: 12,
-    marginTop: 12,
+    paddingBottom: 12,
+    paddingTop: 12,
   },
   headerLink: {
     color: "#3d5a80",
@@ -67,7 +68,7 @@ export const summarySectionStyle = StyleSheet.create({
 
 export const socialSectionStyle = StyleSheet.create({
   socialSection: {
-    marginBottom: 12
+    paddingBottom: 12
   },
   socialMedia: {
     color: "#3d5a80",
@@ -82,14 +83,14 @@ export const newsSectionStyle = StyleSheet.create({
     fontSize: "large",
     fontWeight: "bold",
     color: "#3d5a80",
-    marginTop: 8,
-    marginBottom: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   newsSection: {
-    marginBottom: 12,
+    paddingBottom: 12,
   },
   linkSection: {
-    marginBottom: 6,
+    paddingBottom: 6,
   },
   link: {
     color: "#293241",
@@ -102,12 +103,12 @@ export const newsSectionStyle = StyleSheet.create({
 
 export const metadataSectionStyle = StyleSheet.create({
   metadataSection: {
-    marginBottom: 12,
-    marginTop: 12,
+    paddingBottom: 12,
+    paddingTop: 12,
   },
   text: {
     color: "#293241",
-    marginBottom: 6,
+    paddingBottom: 6,
   },
   boldText: {
     fontWeight: "bold",
